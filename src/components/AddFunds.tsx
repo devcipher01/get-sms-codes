@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { naira, useStore } from "@/lib/store";
 
-export function AddFundsDialog({ open, onOpenChange, suggested }: { open: boolean; onOpenChange: (o: boolean) => void; suggested?: number }) {
+export function AddFundsDialog({ open, onOpenChange, suggested }: { open: boolean; onOpenChange: (o: boolean) => void; suggested?: number | undefined }) {
   if (!open) return null;
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-overlay p-4" onClick={() => onOpenChange(false)}>
@@ -12,7 +12,7 @@ export function AddFundsDialog({ open, onOpenChange, suggested }: { open: boolea
   );
 }
 
-export function PaystackForm({ suggested, onDone }: { suggested?: number; onDone?: () => void }) {
+export function PaystackForm({ suggested, onDone }: { suggested?: number | undefined; onDone?: () => void }) {
   const { deposit } = useStore();
   const [amount, setAmount] = useState(suggested ? Math.ceil(suggested / 100) * 100 : 2000);
   const [paying, setPaying] = useState(false);
