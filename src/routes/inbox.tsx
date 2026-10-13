@@ -4,7 +4,7 @@ import { CopyCode } from "@/components/CodeRow";
 import { getService, timeAgo, useStore } from "@/lib/store";
 
 export const Route = createFileRoute("/inbox")({
-  validateSearch: (s: Record<string, unknown>) => ({ n: typeof s.n === "string" ? s.n : undefined }),
+  validateSearch: (s: Record<string, unknown>): { n?: string } => (typeof s["n"] === "string" ? { n: s["n"] } : {}),
   head: () => ({
     meta: [
       { title: "Inbox — Relay" },
