@@ -1,5 +1,8 @@
+import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { MessageSquareText, Phone, Wallet } from "lucide-react";
 import { AppShell } from "@/components/AppShell";
+import { AddFundsDialog } from "@/components/AddFunds";
 import { CopyCode } from "@/components/CodeRow";
 import { getService, naira, timeAgo, useStore } from "@/lib/store";
 
@@ -17,6 +20,7 @@ export const Route = createFileRoute("/")({
 
 function Dashboard() {
   const { balance, numbers } = useStore();
+  const [fundsOpen, setFundsOpen] = useState(false);
   const today = new Date().toDateString();
   const texts = numbers.flatMap((n) => n.texts.map((t) => ({ ...t, n })));
   const textsToday = texts.filter((t) => new Date(t.at).toDateString() === today).length;
@@ -31,9 +35,27 @@ function Dashboard() {
         <Link to="/get-number" className="btn-primary px-5 py-2.5 text-sm">Get a number</Link>
       </div>
       <div className="mt-8 grid gap-4 sm:grid-cols-3">
-        <Stat label="Balance" value={naira(balance)} />
-        <Stat label="Active numbers" value={String(numbers.length)} />
-        <Stat label="Texts today" value={String(textsToday)} />
+        <div className="panel bg-hero">
+          <div className="flex items-center gap-2 text-xs uppercase tracking-wider opacity-80">
+            <Wallet className="size-3.5" /> Balance
+          </div>
+          <div className="mt-2 font-mono text-3xl font-semibold">{naira(balance)}</div>
+          <button className="btn-paystack mt-3 px-3 py-1.5 text-xs" onClick={() => setFundsOpen(true)}>Add funds</button>
+        </div>
+        <div className="panel flex items-start justify-between">
+          <div>
+            <div className="text-xs uppercase tracking-wider text-muted-foreground">Active numbers</div>
+            <div className="mt-2 font-mono text-3xl font-semibold">{numbers.length}</div>
+          </div>
+          <span className="rounded-lg bg-primary/10 p-2 text-primary"><Phone className="size-5" /></span>
+        </div>
+        <div className="panel flex items-start justify-between">
+          <div>
+            <div className="text-xs uppercase tracking-wider text-muted-foreground">Texts today</div>
+            <div className="mt-2 font-mono text-3xl font-semibold">{textsToday}</div>
+          </div>
+          <span className="rounded-lg bg-success/10 p-2 text-success"><MessageSquareText className="size-5" /></span>
+        </div>
       </div>
       <div className="mt-8 grid gap-6 lg:grid-cols-2">
         <section className="panel">
@@ -68,15 +90,7 @@ function Dashboard() {
           </ul>
         </section>
       </div>
+      <AddFundsDialog open={fundsOpen} onOpenChange={setFundsOpen} />
     </AppShell>
-  );
-}
-
-function Stat({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="panel">
-      <div className="text-xs uppercase tracking-wider text-muted-foreground">{label}</div>
-      <div className="mt-2 font-mono text-3xl font-semibold">{value}</div>
-    </div>
   );
 }
