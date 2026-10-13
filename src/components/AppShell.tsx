@@ -1,18 +1,21 @@
 import { Link } from "@tanstack/react-router";
 import { useState, type ReactNode } from "react";
+import { LayoutDashboard, Smartphone, Inbox, Wallet, LifeBuoy, X } from "lucide-react";
 import { naira, useStore } from "@/lib/store";
 import { AddFundsDialog } from "./AddFunds";
+import { HelpDialog } from "./HelpDialog";
 
 const nav = [
-  { to: "/", label: "Dashboard" },
-  { to: "/get-number", label: "Get a number" },
-  { to: "/inbox", label: "Inbox" },
-  { to: "/wallet", label: "Wallet" },
+  { to: "/", label: "Dashboard", icon: LayoutDashboard },
+  { to: "/get-number", label: "Get a number", icon: Smartphone },
+  { to: "/inbox", label: "Inbox", icon: Inbox },
+  { to: "/wallet", label: "Wallet", icon: Wallet },
 ] as const;
 
 export function AppShell({ children }: { children: ReactNode }) {
   const { balance } = useStore();
   const [open, setOpen] = useState(false);
+  const [help, setHelp] = useState(false);
   return (
     <div className="min-h-screen md:flex">
       <aside className="sticky top-0 z-20 flex flex-col gap-3 border-b border-border bg-sidebar p-3 md:h-screen md:w-60 md:shrink-0 md:gap-6 md:border-b-0 md:border-r md:p-5">
