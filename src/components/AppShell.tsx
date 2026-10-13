@@ -27,7 +27,7 @@ export function AppShell({ children }: { children: ReactNode }) {
           {nav.map((n) => (
             <Link key={n.to} to={n.to} activeOptions={{ exact: n.to === "/" }}
               className="whitespace-nowrap rounded-md px-3 py-2 text-sm text-muted-foreground transition hover:bg-accent hover:text-foreground"
-              activeProps={{ className: "bg-accent !text-foreground font-medium" }}>
+              activeProps={{ className: "bg-primary/10 !text-primary font-medium" }}>
               {n.label}
             </Link>
           ))}
